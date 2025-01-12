@@ -1,4 +1,6 @@
+using Movies.Application.Database;
 using Movies.Application.Repositories;
+using Movies.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IMovieRepository,MovieRepository>();
+builder.Services.AddSingleton<IMovieService,MovieService>();
+builder.Services.AddSingleton<IDbConnectionFactory>(_ =>
+    new SqlConnectionFactory(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
